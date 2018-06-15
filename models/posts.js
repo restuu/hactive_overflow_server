@@ -18,7 +18,7 @@ const postSchema = new Schema({
     type: String,
     enum: ['question', 'answer']
   },
-  answers: [{ type: ObjectId, ref: 'Post' }] // or [this] which will work
-})
+  answers: [{ type: ObjectId, ref: 'Post' }] // or /* [this] */ which will work
+}, { timestamps: true })
 
 module.exports = mongoose.model('Post', postSchema)
