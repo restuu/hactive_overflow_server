@@ -4,7 +4,7 @@ const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
 const postSchema = new Schema({
-  user: {type: ObjectId, ref: 'User'},
+  user: { type: ObjectId, ref: 'User' },
   title: {
     type: String,
     required () {
@@ -16,8 +16,9 @@ const postSchema = new Schema({
   tot_likes: Number,
   post_type: {
     type: String,
-    enum: ['question', 'answer']
+    enum: [ 'question', 'answer' ]
   },
+  tags: [{ tag: String }],
   answers: [{ type: ObjectId, ref: 'Post' }] // or /* [this] */ which will work
 }, { timestamps: true })
 

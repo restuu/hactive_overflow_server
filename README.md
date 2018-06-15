@@ -6,5 +6,11 @@
 
 End Point  |  METHOD  |  Desc  |  Req
 -----------|----------|--------|-------
-users/register  |  POST  |  Create new user  |  body: fullname, email, password
-users/login  |  POST  |  Will receive token  |  body: email, password
+users/register  |  POST  |  Create new user  |  **body**: fullname, email, password
+users/login  |  POST  |  Will receive token  |  **body**: email, password
+questions  |  GET  | Get a question details  |  **query**: q= *question id*
+questions/add  |  POST  |  Create new question  |  **body**: title, content, tags; **headers**: authorization (token)
+questions/:qusId/edit  |  PUT  |  Edit a question  |  **body**: key: `'title'` / `'content'`, value; **headers**: authorization (token)
+questions  |  DELETE  |  Delete a question  |  **query**: q= *question id*; **headers**: authorization (token)
+questions/:qusId/answers/add  |  POST  |  Add an answer to a question  |  **body**: content [, title]; **headers**: authorization (token)
+questions/:qusId/answers/:ansId/edit  |  PUT  |  edit an answer  |  **body**: key: `title` / `content`, value; **headers**: authorization (token)
