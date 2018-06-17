@@ -1,4 +1,4 @@
-# Hactive Overflow Server
+# Hactiv Overflow Server
 
 ## Usage
 
