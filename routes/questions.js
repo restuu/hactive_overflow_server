@@ -2,13 +2,15 @@ const router = require('express').Router()
 
 const {
   addNewQuestion,
-  fetchAllQuestions
+  fetchAllQuestions,
+  fetchQuestionById
 } = require('../controllers/questions.controller')
 
 const auth = require('../middlewares/auth')
 // GET
 router
-  .get('/')
+  .get('/', fetchAllQuestions)
+  .get('/:qusId', fetchQuestionById)
 
 // POST
 

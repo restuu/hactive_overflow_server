@@ -19,5 +19,40 @@ module.exports = {
         error: err.error
       })
     })
+  },
+
+  fetchAllQuestions (req, res) {
+    Post
+      .find()
+      .then(questions => {
+        res.status(200).json({
+          message: 'data loaded',
+          questions
+        })
+      })
+    .catch(err => {
+      res.status(500).json({
+        message: 'loading data error',
+        error: err.message 
+      })
+    })
+  },
+
+  fetchQuestionById (req, res) {
+    let qusId = req.params.qusId
+    Post
+      .findById(qusId)
+      .then(result => {
+        res.status(200).json({
+          message: 'data loaded',
+          question: result
+        })
+      })
+    .catch(err => {
+      res.status(500).json({
+        message: 'loading data error',
+        error: err.message
+      })
+    })
   }
 }
