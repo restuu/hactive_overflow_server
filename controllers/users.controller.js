@@ -1,5 +1,4 @@
-const User = require('../models/users')
-const bcrypt = require('bcryptjs')
+const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
 module.exports = {
@@ -29,15 +28,16 @@ module.exports = {
       .then(result => {
         let secretKey = process.env.JWT_SECRET
         let payload = {
-          id: result._id,
-          email: result.email
+          id: result.user._id,
+          email: result.user.email
         }
+        console.log('---payload', result)
 
         let token = jwt.sign(payload, secretKey)
 
         res.status(result.status).json({
           message: result.message,
-          user: result.user,
+          user: result.user.fullname,
           token
         })
       })

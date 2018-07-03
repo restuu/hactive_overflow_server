@@ -27,7 +27,6 @@ userSchema.statics.findOneOrCreate = async function (user) {
 
   try {
     let user = await this.findOne().where({email})
-    console.log('----------schema------------',user)
     if (user) {
       let error = {
         status: 400,
