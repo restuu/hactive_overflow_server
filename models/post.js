@@ -14,7 +14,10 @@ const postSchema = new Schema({
   },
   content: String,
   isSolved: { type: Boolean, default: false },
-  totLikes: Number,
+  totLikes: {
+    type: Number,
+    default: 0
+  },
   postType: {
     type: String,
     enum: [ 'question', 'answer' ]
@@ -47,6 +50,47 @@ postSchema.statics.addQuestionAndUpdateUser = async function (question, userId) 
     let newError = {
       status: 500,
       message: 'something\'s wrong when updating your data',
+      error
+    }
+    return newError
+  }
+}
+
+postSchema.statics.voteQuestion = async function (voteMethod, postId, userId) {
+  try {
+    let isVoted = await User.findByIdAndCheckIdVoted(userId, postId, voteMethod)
+    
+    console.log('--------------is voted at post----------------');
+    console.log(isVoted);
+    if (isVoted) {
+      let newError = {
+        status: 400,
+        message: `This user already ${voteMethod}voted this post`
+      }
+      
+      throw newError
+    }
+  
+    let post = await this.findById(postId)
+    if (voteMethod === 'up') {
+      post.totLikes++  
+    } else {
+      post.totLikes--
+    }
+    let saved = await post.save()
+    let success = {
+      status: 200,
+      message: 'Database updated',
+      post: saved
+    }
+    return success
+  } catch (error) {
+    if (error.message) {
+      throw error
+    }
+    let newError = {
+      status: 500,
+      message: 'database connection error',
       error
     }
     return newError

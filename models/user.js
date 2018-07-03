@@ -18,8 +18,11 @@ const userSchema = new Schema({
     unique: true
   },
   password: String,
-  posts: [{type: ObjectId, ref: 'Post'}],
-  likes: [{type: ObjectId, ref: 'Post'}]
+  posts: [{ type: ObjectId, ref: 'Post' }],
+  votes: [{
+    voteType: String,
+    vote: { type: ObjectId, ref: 'Post' }
+  }],
 })
 
 userSchema.statics.findOneOrCreate = async function (user) {
@@ -100,6 +103,23 @@ userSchema.statics.findByEmailThenComparePass = async function (user) {
     }
     throw newError
   }
+}
+
+userSchema.statics.findByIdAndCheckIdVoted = async function (userId, postId, voteType) {
+  let user = await this.findById(userId)
+  let isVoted = user.votes.filter(el => {
+    return el.voteType === voteType && el.vote == postId
+  })[0]
+  console.log('-----------------is voted----------------');
+  console.log(isVoted)
+  if (!!isVoted) {
+    return true
+  }
+  user.votes.push({ voteType, vote: postId })
+  let voted = await user.save()
+  console.log('-------------------voted------------------------');
+  console.log(voted);
+  return false
 }
 
 module.exports = mongoose.model('User', userSchema)

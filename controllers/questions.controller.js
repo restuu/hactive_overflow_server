@@ -54,5 +54,34 @@ module.exports = {
         error: err.message
       })
     })
+  },
+
+  votePostById (req, res) {
+    let qusId = req.params.qusId
+    let voteMethod = req.query.q
+    let user = res.locals.user
+
+    if (voteMethod !== 'up' && voteMethod !== 'down') {
+      return res.status(400).json({
+        message: `method "${voteMethod}" is unrecognized`
+      })
+    }
+
+    Post
+      .voteQuestion(voteMethod, qusId, user.id)
+      .then(result => {
+        console.log('-----------vote success---------------');
+        console.log(result);
+        res.status(result.status).json({
+          message: result.message,
+        })
+      })
+      .catch(err => {
+        if (err.status) {
+          res.status(err.status).json({
+            message: err.message
+          })
+        }
+      })
   }
 }
