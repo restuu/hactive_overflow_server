@@ -4,7 +4,8 @@ const {
   addNewQuestion,
   fetchAllQuestions,
   fetchQuestionById,
-  votePostById
+  votePostById,
+  getPermission
 } = require('../controllers/questions.controller')
 
 const auth = require('../middlewares/auth')
@@ -14,6 +15,7 @@ const auth = require('../middlewares/auth')
 router
   .get('/', fetchAllQuestions)
   .get('/:qusId', fetchQuestionById)
+  .get('/:qusId/edit', auth, getPermission)
 
 // POST
 

@@ -83,5 +83,12 @@ module.exports = {
           })
         }
       })
+  },
+
+  getPermission(req, res) {
+    let userId = res.locals.user.id
+    let postId = req.params.qusId
+    
+    Post.findById
   }
 }
