@@ -28,6 +28,7 @@ const postSchema = new Schema({
 
 postSchema.statics.addQuestionAndUpdateUser = async function (question, userId) {
   try {
+    question.user = userId
     let newQuestion = await this.create(question)
     let userUpdate = await User.findByIdAndUpdate(
       userId,

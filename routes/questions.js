@@ -3,9 +3,10 @@ const router = require('express').Router()
 const {
   addNewQuestion,
   fetchAllQuestions,
-  fetchQuestionById,
+  fetchPostById,
   votePostById,
-  getPermission
+  getPermission,
+  editPostById
 } = require('../controllers/questions.controller')
 
 const auth = require('../middlewares/auth')
@@ -14,7 +15,7 @@ const auth = require('../middlewares/auth')
 
 router
   .get('/', fetchAllQuestions)
-  .get('/:qusId', fetchQuestionById)
+  .get('/:qusId', fetchPostById)
   .get('/:qusId/edit', auth, getPermission)
 
 // POST
@@ -26,5 +27,6 @@ router
 
 router
   .put('/:qusId/vote', auth, votePostById)
+  .put('/:qusId/edit', auth, editPostById)
 
 module.exports = router
