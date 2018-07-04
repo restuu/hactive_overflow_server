@@ -15,5 +15,6 @@ questions/:qusId/vote  |  PUT  |  Upvote / downvote a question  |  **query**: *q
 questions/:qusId/edit  |  GET  |  Get permission status to edit post  |  **headers**: authorization (token)
 questions/:qusId/edit  |  PUT  |  Edit a question  |  **body**: key: `'title'` / `'content'`, value; **headers**: authorization (token)
 questions  |  DELETE  |  Delete a question  |  **query**: q= *question id*; **headers**: authorization (token)
+questions/:qusId/answers/:ansId  |  GET  |  Get answer by id  |  -
 questions/:qusId/answers/add  |  POST  |  Add an answer to a question  |  **body**: content [, title]; **headers**: authorization (token)
 questions/:qusId/answers/:ansId/edit  |  PUT  |  edit an answer  |  **body**: key: `title` / `content`, value; **headers**: authorization (token)

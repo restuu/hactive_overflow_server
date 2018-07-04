@@ -53,7 +53,7 @@ postSchema.statics.addQuestionAndUpdateUser = async function (question, userId) 
       message: 'something\'s wrong when updating your data',
       error
     }
-    return newError
+    throw newError
   }
 }
 
@@ -86,7 +86,7 @@ postSchema.statics.voteQuestion = async function (voteMethod, postId, userId) {
     }
     return success
   } catch (error) {
-    if (error.message) {
+    if (error.status) {
       throw error
     }
     let newError = {
@@ -94,7 +94,49 @@ postSchema.statics.voteQuestion = async function (voteMethod, postId, userId) {
       message: 'database connection error',
       error
     }
-    return newError
+    throw newError
+  }
+}
+
+postSchema.statics.addAnswerToQuestion = async function (answer, qusId, userId) {
+  try {
+    let newAnswer = await this.create(answer)
+    let question = await this.findById(qusId)
+    let user = await User.findById(userId)
+    
+    user.posts.push(newAnswer._id)
+
+    let userUpdated = await user.save()
+    console.log('----------user answered----------');
+    console.log(userUpdated);
+
+    question.answers.push(newAnswer._id)
+
+    let questionUpdated = await question.save()
+    console.log('------------new answer------------');
+    console.log(questionUpdated)
+    
+    let success = {
+      status: 200,
+      message: 'new answer added'
+    }
+
+    return success
+  } catch (error) {
+
+    console.log('---------------error at adding answer post model-------------');
+    console.log(error);
+
+    if (error.status) {
+      throw error
+    }
+    let newError = {
+      status: 500,
+      message: 'database connection failed',
+      error
+    }
+
+    throw newError
   }
 }
 

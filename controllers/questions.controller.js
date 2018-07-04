@@ -39,11 +39,13 @@ module.exports = {
   },
 
   fetchPostById (req, res) {
-    let qusId = req.params.qusId
+    let postId = req.params.ansId || req.params.qusId
     Post
-      .findById(qusId)
+      .findById(postId)
       .populate('answers')
       .then(result => {
+        console.log('-----populate answers----');
+        console.log(result);
         res.status(200).json({
           message: 'data loaded',
           [result.postType]: result
@@ -131,6 +133,32 @@ module.exports = {
         res.status(500).json({
           message: 'database connection error',
           error: err
+        })
+      })
+  },
+
+  addNewAnswer(req, res) {
+    let qusId = req.params.qusId
+    let userId = res.locals.user.id
+    let content = req.body.content
+
+    let answer = { 
+      content,
+      postType: 'answer',
+      user: userId
+    }
+
+    Post
+      .addAnswerToQuestion(answer, qusId, userId)
+      .then(result => {
+        res.status(result.status).json({
+          message: result.message
+        })
+      })
+      .catch(err => {
+        res.status(err.status).json({
+          message: err.message,
+          error: err.error
         })
       })
   }

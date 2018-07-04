@@ -48,7 +48,7 @@ userSchema.statics.findOneOrCreate = async function (user) {
         status: 201,
         message: 'new user created'
       }
-      return newUser
+      return success
     }
   } catch (error) {
     if (error.status) {
