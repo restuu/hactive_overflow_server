@@ -36,9 +36,7 @@ postSchema.statics.addQuestionAndUpdateUser = async function (question, userId) 
       { new: true }
     )
     console.log('----------new question------------');
-    console.log(newQuestion);
     console.log('-----------user update-------------');
-    console.log(userUpdate);
     let success = {
       status: 200,
       message: 'new question added',
@@ -62,7 +60,6 @@ postSchema.statics.voteQuestion = async function (voteMethod, postId, userId) {
     let isVoted = await User.findByIdAndCheckIdVoted(userId, postId, voteMethod)
     
     console.log('--------------is voted at post----------------');
-    console.log(isVoted);
     if (isVoted) {
       let newError = {
         status: 400,

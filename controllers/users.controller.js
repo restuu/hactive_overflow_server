@@ -22,7 +22,7 @@ module.exports = {
   findUser (req, res) {
     let { email, password } = req.body
     let candidate = { email, password }
-    console.log('find user');
+    
     User
       .findByEmailThenComparePass(candidate)
       .then(result => {
@@ -31,7 +31,6 @@ module.exports = {
           id: result.user._id,
           email: result.user.email
         }
-        console.log('---payload', result)
 
         let token = jwt.sign(payload, secretKey)
 

@@ -44,8 +44,6 @@ module.exports = {
       .findById(postId)
       .populate('answers')
       .then(result => {
-        console.log('-----populate answers----');
-        console.log(result);
         res.status(200).json({
           message: 'data loaded',
           [result.postType]: result
@@ -73,8 +71,6 @@ module.exports = {
     Post
       .voteQuestion(voteMethod, postId, user.id)
       .then(result => {
-        console.log('-----------vote success---------------');
-        console.log(result);
         res.status(result.status).json({
           message: result.message,
         })
